@@ -1,0 +1,15 @@
+.DS_Store
+
+*.aux
+*.log
+*.out
+*.gz
+*.pdf
+*.dvi
+*.odt
+*.blg
+*.lof
+*.toc
+*.bbl
+*.lot
+_region_.tex

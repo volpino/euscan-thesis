@@ -1,0 +1,85 @@
+\chapter{Upstream Scanning System}
+
+\section{Overview}
+As already mentioned one of the strong points of Euscan is the possibility to detect upstream versions on existing ebuilds without needing the maintainer to provide additional information (even though he or she can do so).
+
+Unlike Debian uscan where the maintainer is supposed to write a watch file with an URL to fetch and a regular expression to match for finding upstream versions, Euscan uses information already available inside ebuilds, SRC\textunderscore URI in particular. SRC\textunderscore URI is a variable with the URL where to fetch the source code, this is a piece of information that it is usually not available in binary packages because it is not useful for the purpose of installing binaries. As Portage is also a build system that compiles all the software the user wants to install, this piece of information is essential and it is always present.
+
+\subsection{Workflow}
+It is possible to call the Euscan CLI or the Python API by passing a list of packages to scan. Only the package name without the category or simply the ebuild path can be passed, Gentoolkit is used for reconciliation. Once the packages objects are obtained Euscan extracts metadata information for each one of them, then SRC\textunderscore URI is parsed and elaborated if necessary. Portage supports also mirror:// URLs, special URLs that have to be expanded in order to be used, this is needed for websites that provide different mirrors for the same file.
+
+After this brief initial evaluation each package with the associated source URLs is passed to the handler system.
+
+
+\section{Scanning handlers}
+\label{sec:handlers}
+
+\subsection{Introduction}
+The handlers' system is a pluggable ecosystem of scripts for handling different upstream sources. As most of the packages are available through standard services (e.g.: SourceForge, BerliOS, PyPI, RubyGems, \ldots) creating custom and efficient scripts that exploit peculiarities of each service can lead to correct handling of the majority of the cases in a reliable way. For this reason at the moment Euscan implements 11 different handlers for various major providers of source code and 1 special handler for non-standard providers.
+Each handler has a priority and returns a list of detected upstream versions and a confidence for each one of them. The confidence is a 0-100 score that represents the reliability of the results.
+
+Initially handlers were designed to accept a URL and return results if they were suitable for dealing with that kind of input. This approach was used in production for some months but then a new kind of handler was added in order to support specific settings added by the maintainer in the ebuild metadata in order to correctly handle some corner cases of important packages (like for example MySQL). As those pieces of information are not associated to a specific SRC\textunderscore URI but concern the whole package, handlers were modified in order to support packages as input as well as URLs.
+
+It is important to remark that all handlers are pluggable, so it is very easy to add new ones, the only thing to do is to write a Python script compliant with the Euscan handlers specification (see \ref{sec:handlers_appendix}) and place it in the \emph{handlers} directory.
+
+
+\subsection{Upstream metadata}
+A maintainer can add information about the service that offers upstream versions of the package. Each ebuild has a \texttt{metadata.xml} file associated with it where for instance the data about herds and maintainer is stored. GLEP (Gentoo Linux Enhancement Proposal) \#46 \cite{glep46} introduced the \texttt{<upstream>} tag in order to keep track of some additional information about upstream. This proposal was presented in 2008 with a long view and the idea of an upstream scanner in mind years before Euscan was born.
+For Euscan the \texttt{<remote-id>} tag and its \texttt{type} attribute are important because they store information about the name of the service that hosts the package as well as its project name. This data allows a better handling of special cases.
+
+\subsection{Init handler}
+The init handler receives a package and a list of URLs to scan and deals with the dispatching of this information to the suitable handlers.
+\begin{enumerate}
+\item The Init handler loads all the available handlers from the \emph{handlers} directory
+\item It loads upstream options from ebuild metadata in order to handle special cases.
+\item It searches for package handlers suitable for the given package. If it founds at least one candidate it calls the one with higher priority.
+\item If no package handlers are found it fallbacks to URLs handlers, the candidate with higher priority is called.
+\item Upstream found versions are returned to the callee.
+\end{enumerate}
+
+\subsection{Specific handlers}
+Here is a list of handlers frequently used by Euscan in order to scan well known and widely used services with a brief description. Each one of these handlers is a package handler as well as an URL handler. If the package provides metadata with the service where it is hosted and the name of its project on the given service the handler is called as a package handler. On the contrary the handler is called as an URL handler and the needed information is guessed from the URL.
+
+\begin{itemize}
+\item BerliOS handler: For software released on \texttt{berlios.de}. \\ Scrapes \texttt{http://developer.berlios.de/} for finding new upstream versions
+\item CPAN: For Perl libraries released on the Comprehensive Perl Archive Network. Uses the CPAN API for finding new upstream versions. Provides ad-hoc version mangling functions for handling different version enumeration of Perl libraries.
+\item Freecode: Scrapes \texttt{http://freecode.com} for finding new upstream versions
+\item GitHub: Uses the GitHub API for finding new upstream versions hosted on GitHub.
+\item Gnome: For GNOME packages, uses the official GNOME FTP server.
+\item Google Code: For projects hosted on Google Code, uses the Google Code API for finding new upstream versions.
+\item KDE: A simple wrapper over the generic handler for better handling KDE packages.
+\item PHP: For PHP libraries from the PHP Extension and Application Repository (PEAR) or from the PHP Extension Community Library (PECL). Uses the REST API offered by PHP.net.
+\item PyPI: For Python libraries hosted on the Python Package Index. Queries the API offered by PyPI for finding new upstream versions.
+\item RubyGems: For Ruby libraries, queries the API offered by RubyGems.
+\item SourceForge: For software hosted on SourceForge, scrapes the files section of the  project page.
+\end{itemize}
+
+
+\subsection{Generic URL handler}
+The generic handler is designed to use some heuristics in order to find upstream versions hosted on custom services. It is able to scan both HTTP and FTP urls.
+
+The workflow of the generic handler is as follows:
+\bgroup
+\def\arraystretch{1.2}
+\begin{table}[ht]
+%\caption{Table caption}
+\centering
+\begin{tabular}{l p{5cm} p{5cm}}
+\hline\hline \\
+Step \# & Description \\ [0.5ex] 
+\hline  \\
+0 & An URL is sent to the handler \\ 
+& http://www.abisource.com/downloads/abiword/2.8.6/source/abiword-2.8.6.tar.gz \\
+
+\hline  \\
+1 & A template is generated from the given URL, substituting version numbers with a placeholder \\
+& http://www.abisource.com/downloads/
+abiword/\$\{PV\}/source/abiword-\$\{PV\}.tar.gz \\
+
+\hline \\
+2 & From the template a list of couples, each formed by a URL and a pattern, is generated.
+\end{tabular}
+\end{table}
+\egroup
+
+\section{Future improvement}
