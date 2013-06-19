@@ -136,8 +136,8 @@ The generic handler relies on links displayed in the page and HTTP responses (fo
 For solving this issue a maximum recursion limit is imposed and for special cases it is possible to blacklist some websites in order not to scan them.
 
 \subsection{Version mangling}
-One of the hardest and partially unsolved issues is the version mangling. Gentoo, as most of the distros, has a specific policy for version enumeration. Unfortunately every upstream developer has his own policy, some of them are very peculiar (e.g.: \emph{pycryptopp}, a Python library that provides cryptographic functions has a release with version number \texttt{0.6.0.1206569328141510525648
-634803928199668821045408958}).
+One of the hardest and partially unsolved issues is the version mangling. Gentoo, as most of the distros, has a specific policy for version enumeration. Unfortunately every upstream developer has his own policy, some of them are very peculiar (e.g.: \emph{pycryptopp}, a Python library that provides cryptographic functions, has a release with version number \texttt{0.6.0.120656932814151052564 
+8634803928199668821045408958}).
 
 Euscan implements a mechanism of version mangling for handling common cases of different enumeration but it is very difficult to cover all special cases. For this reason an RFC (http://www.mail-archive.com/gentoo-dev@lists.gentoo.org/msg51959.html) was proposed to the \emph{gentoo-dev} mailing list with a possible solution: currently Euscan accepts a \texttt{versionmangle} attribute in the \texttt{<remote-id>} tag, this attribute can include a regular expression for substituting some parts of the version number. An example of a \texttt{versionmangle} value is \url{s/([\d\.]+)\.(\d+)/\$1-r\$2/} that converts a version number like "1.2" to "1-r2".
 
