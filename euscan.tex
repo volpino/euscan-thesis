@@ -13,7 +13,7 @@ The power and flexibility of ebuilds allow to exploit them as a primary source o
 
 Many packages are hosted on the same standardized service, for example almost all Python libraries are available on PyPi (\texttt{http://pypi.org}), which offers an API to get more specific and precise information about packages. As most of the packages are hosted in a few big services, using ad-hoc pieces of software to get version information allows to obtain better quality results.
 
-Euscan exploits information included inside ebuilds to achieve this: all ebuilds provide a SRC\textunderscore URI variable with the URL where to get the source code. This allows to infer the best way to retrieve version information or fallback to a generic scraping in the worst cases.
+Euscan exploits information included inside ebuilds to achieve this: all ebuilds provide a \texttt{SRC\textunderscore URI} variable with the URL where to get the source code. This allows to infer the best way to retrieve version information or fallback to a generic scraping in the worst cases.
 It is important to remark that ebuilds do not need to provide additional information for upstream scanning, even though it is possible to do that to handle corner cases. Euscan infers all the needed information and automates the process for the maintainer.
 
 
@@ -132,7 +132,7 @@ This level of granularity and customization allows to use Euscan not only as an 
 
 \subsection{REST API}
 Euscan provides a REST API to query the service. At the moment it does not provide a rich set of features: it is mostly meant to give statistics about the status of the Portage tree and upstream versions.
-Improving the API adding more functionalities is one of the next steps for the future.
+Improving the API and adding more functionalities is one of the next steps for the future.
 
 
 \subsection{Statistics}
@@ -181,7 +181,7 @@ A big issue was the synchronization of the different processes because there is 
 
 Various tests were made in order to find a good configuration for achieving reasonable performance. The results are as follows:
 \begin{itemize}
-\item For Portage and metadata scanning the is no a priori knowledge of the all the available packages, as new ones can be released. For this reason it is not possible to run a subtask for getting information about a single package or a group of them. Moreover, most of the time required to get this kind of information is spent by eix or gentoolkit: Euscan code just retrieves eix results and stores them into its database after a simple parsing of the given data. A good solution that was even used in production for some time was to use a single task to perform the work for the whole ebuilds tree. This solution however did not offer any kind of parallelization, making the process reliable but not fast. The current implementation divides the scanning load by category: there are 153 categories in Portage, each task scans one of them.
+\item For Portage and metadata scanning the is no a priori knowledge of the all the available packages, as new ones can be released. For this reason it is not possible to run a subtask for getting information about a single package or a group of them. Moreover, most of the time required to get this kind of information is spent by eix or gentoolkit: Euscan code just retrieves eix results and stores them into its database after a simple parsing of the given data. A good solution that was even used in production for some time was to use a single task to perform the work for the whole ebuilds tree. This approach however did not offer any kind of parallelization, making the process reliable but not fast. The current implementation divides the scanning load by category: there are 153 categories in Portage, each task scans one of them.
 
 \item For upstream scanning and other network dependent tasks (like sending emails) a different approach was used. As each single task is slow and can possibly crash because of network issues it is a good choice to isolate them. For this purpose Celery offers subtasks, independent tasks that belong to a higher class task that manages them. Subtasks can run in parallel and then be joined by their parent task.
 For upstream scanning there is a priori knowledge of the packages to scan, so it is possible to create a task that deals with a group of packages, where the scanning process for each package is performed by a subtask. The same applies for email sending.

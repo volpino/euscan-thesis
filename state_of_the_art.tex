@@ -1,9 +1,9 @@
 \chapter{State of the art}
 
 \section{The Gentoo project}
-Gentoo is a free and open source operating system available in Linux or FreeBSD flavour, that can be automatically optimized and customized in order to better fit the user needs. Its main aim is to offer extreme configurability and performance to the final user, that is intended to be a power user, a developer or a system administrator. Portage is the main tool that allows this, it is a package manager that can build every piece of software according to the compilation options set by the user.
-
+Gentoo is a free and open source operating system available in Linux or FreeBSD flavour, that can be automatically optimized and customized in order to better fit the user needs. Its main aim is to offer extreme configurability and performance to the final user, that is intended to be a power user, a developer or a system administrator. Portage is the main tool that allows this: it is a package manager that can build every piece of software according to the compilation options set by the user.
 Thanks to its high customizability, Gentoo can become a secure production server, a development workstation, a professional desktop, a gaming system or virtually whatever the user needs it to be (e.g.: currently there is a work in progress to port Gentoo on Android devices  \cite{gentoo_android}). Because of its high adaptability, Gentoo is often referred to as a \emph{metadistribution}.
+
 Even though the project was born on x86 architectures, it is possible to install Gentoo on a wide variety of platforms; currently it is officially supported and considered stable on x86, x86\textunderscore 64, Alpha, ARM, HPPA, IA-64, MIPS, PowerPC, PPC64 and SPARC.
 
 The name "Gentoo" (/\textipa{'dZEntu:}/ JEN-too) comes from the fastest-swimming penguin, in order to reflect the fundamentals of the project.
@@ -13,7 +13,7 @@ In the past the Gentoo community was studied both from a sociological and techni
 
 
 \subsection{History}
-Daniel Robbins founded Enoch Linux on 4th of October 1999. His goal was to develop a new GNU/Linux distro that allowed the user to configure and compile each single package on his system in order to achieve what he thought was missing in other distributions: high personalization and compilation with hardware specific optimizations.
+Daniel Robbins founded Enoch Linux on 4th of October 1999. His goal was to develop a new GNU/Linux distro that allowed the user to configure and compile each single package on his system, in order to achieve what he thought was missing in other distributions: high personalization and compilation with hardware specific optimizations.
 In the very early stages of development, Enoch manifested some issues with GLIBC and the GCC compiler that were solved by Daniel and other developers (from Cygnus Solutions in particular), making the project gain particular interest from the open source community.
 
 Later Enoch was renamed to Gentoo and Gentoo Technologies Inc. was founded in order to economically sustain the project. In 2002 the version 1.0 was released.
@@ -30,34 +30,35 @@ Since then the whole ecosystem was reorganized: the Gentoo Council is elected ye
 
 \subsection{Development structure}
 Since 2004, with the birth of the Gentoo Foundation, the development of the project turned to a full community-driven structure. A possible metaphor for this development model is a Bazaar, as Eric S. Raymond described in his essay "The Cathedral and the Bazaar" \cite{cathedral_bazaar}.
+
 Currently there are more than 230 active developers in Gentoo, divided in staff developers (focused on collateral projects, infrastructure and documentation) and ebuild developers (who have commit access to the ebuild tree and are the ones who maintain packages and main users of Euscan).
-Every developer can be assigned to one or more projects, a project is a group of developers working towards a goal (or a set of goals), they are available and described at \texttt{www.gentoo.org/proj/en/<project name>}. Projects are essential for Gentoo because they provide very important functionalities (examples of projects are \emph{infra} that maintains the infrastructure used by all developers or \emph{hardened} that is focused on advanced security measures) and allow work separation and modularization.
+Every developer can be assigned to one or more projects: a project is a group of developers working towards a goal (or a set of goals), they are available and described at \texttt{www.gentoo.org/proj/en/<project name>}. Projects are essential for Gentoo because they provide very important functionalities (examples of projects are \emph{infra} that maintains the infrastructure used by all developers or \emph{hardened} that is focused on advanced security measures) and allow work separation and modularization.
 
 Important decisions are discussed among developers on mailing lists: there are many of them for different purposes, for instance \emph{gentoo-dev} is a technical list open to users where it is possible to propose new features or send RFCs, \emph{gentoo-user} is to support final users while \emph{gentoo-project} is for non technical debates about the project. Another mean of communication used for the same purpose is IRC, there are many channels on Freenode \cite{gentoo_irc} where developers and users can meet and chat.
 Critical decisions and guidelines for the future steps of the project are discussed by the Gentoo Council, an organism that is yearly elected among developers and that meets every month on IRC to deliberate.
 
-The Gentoo bug tracker is reachable at \texttt{http://bugs.gentoo.org}: this platform is an essential tool for developers because it is extensively used not only for bugs but for every issue or task that needs work or acceptance, for instance for every new developer request a new bug is filled in order to keep an history and make it public to other members of the community.
-
+The Gentoo bug tracker is reachable at \texttt{http://bugs.gentoo.org}: this platform is an essential tool for developers because it is extensively used not only for bugs but also for every issue or task that needs work or acceptance: for instance for every new developer request a new bug is filled in order to keep an history and make it public to other members of the community.
 
 
 \subsection{Portage}
 The package management system developed by the Gentoo project and used in Gentoo Linux, Gentoo FreeBSD and Chromium OS is called Portage \cite{gentoo_portage}. It is important to remark that Portage is OS-independent and can be installed in virtually any environment.
 The main purpose of this software is to build sources and install them in the system prefix, tracking installed files and managing dependencies. During compilation the settings and optimization options chosen by the user are applied.
 
-Portage is composed by an interface called \emph{emerge} and the underlying ebuild system, the former is only an interface to the latter. It allows to personalize the build of every package by using USE flags which are custom flags declared in the ebuild that enable or disable specific features or settings during compilation. For example, the "gtk" USE flag, if enabled when building \emph{net-misc/wicd} (a network manager), compiles the software with a GTK GUI, if it is disabled it will be compiled and installed without that feature. USE flags allow very granular customization because they allow to manage machine specific optimizations and to effectively tune every piece of software installed on the system.
+Portage is composed by an interface called \emph{emerge} and the underlying ebuild system, the former is only an interface to the latter. It allows to personalize the build of every package by using \texttt{USE} flags which are custom flags declared in the ebuild that enable or disable specific features or settings during compilation. For example, the "gtk" \texttt{USE} flag, if enabled when building \emph{net-misc/wicd} (a network manager), compiles the software with a GTK GUI, if it is disabled it will be compiled and installed without that feature. \texttt{USE} flags allow very granular customization because they allow to manage machine specific optimizations and to effectively tune every piece of software installed on the system.
 
 Portage offers support for different architectures: every ebuild provides a list of architectures (technically named keywords) and for each one it specifies if it is stable or unstable (e.g.: if the software is stable on \emph{x86} and unstable on \emph{mips} the ebuild will have the \texttt{ACCEPT\textunderscore KEYWORD} flag set to \texttt{"x86 ~mips"}). 
-Other advanced features are provided, for example the support for SLOTS (i.e.: the possibility to install different versions of a specific library or application on the same system), software license management or metapackages.
+Other advanced features are provided, for example the support for \texttt{SLOTS} (i.e.: the possibility to install different versions of a specific library or application on the same system), software license management or metapackages.
+
 Moreover, as Portage is written in Python, it is possible to use its API to directly interact with the software in order to get information about the ebuilds or programmatically perform operations. Euscan uses extensively the Portage API internally.
 
 \vspace{0.5cm}
 
 Build customizations can be specified using config files in /etc/portage/:
 \begin{itemize}
-\item \emph{make.conf} contains general options that are always applied (e.g.: general  purpose flags like CFLAGS, LDFLAGS, MAKEOPTS or Portage specific flags like global USE flags, ACCEPT\textunderscore KEYWORDS, FEATURES, \ldots)
+\item \emph{make.conf} contains general options that are always applied (e.g.: general  purpose flags like \texttt{CFLAGS}, \texttt{LDFLAGS}, \texttt{MAKEOPTS} or Portage specific flags like global \texttt{USE} flags, \texttt{ACCEPT\textunderscore KEYWORDS}, \texttt{FEATURES}, \ldots)
 \item \emph{package.mask} specifies the ebuilds to mask (i.e.: "hide" from Portage)
 \item \emph{package.unmask} specifies which ebuilds to unmask (if they are masked by Gentoo developers because deprecated, for example)
-\item \emph{package.use} specifies custom per-ebuild USE flags
+\item \emph{package.use} specifies custom per-ebuild \texttt{USE} flags
 \item \emph{package.keywords} specifies custom per-ebuild keywords to accept
 \end{itemize}
 
@@ -67,7 +68,7 @@ As explained before, Portage does not usually handle binary packages (like \emph
 
 For Euscan purposes it is important to notice that every ebuild provides a url where to fetch the source code using the \texttt{SRC\textunderscore URI} variable. This information is very important and it is exploited in the upstream scanning process, moreover it is what differentiates Euscan from other upstream scanners and allows better results.
 
-Ebuilds also specify package dependencies, available USE flags, license and supported architectures.
+Ebuilds also specify package dependencies, available \texttt{USE} flags, license and supported architectures.
 The structure of ebuilds is defined and standardized in the Package Manager Specification (PMS) \cite{gentoo_pms} in order to let other alternative package managers like \emph{Paludis} or \emph{pkgcore} to use the same ebuilds offered by Gentoo. The PMS defines EAPI (ebuild API) which are helper functions that can be used for including general purpose code in order to avoid code duplication and facilitate ebuild writing.
 
 Every ebuild is associated to a category, a package name and a version, an example of an ebuild CPV (category, package and version) is "net-analyzer/wireshark-1.9.1".
@@ -108,7 +109,7 @@ src_install() {
 
 
 \subsection{Maintainers and herds}
-Gentoo developers that are in charge of writing ebuilds and maintaining them up-to-date are called \emph{maintainers}. Every package is associated to a maintainer email address or if it is "orphan" it is associated to the special address \texttt{maintainer-needed@gentoo.org}.
+Gentoo developers that are in charge of writing ebuilds and maintaining them up-to-date are called \emph{maintainers}. Every package is associated to a maintainer email address or, if it is "orphan", it is associated to the special address \texttt{maintainer-needed@gentoo.org}.
 A \emph{herd} is a collection of packages with an associated set of maintainers. Herds were born in order to facilitate ebuild maintenance and to ensure that the large number of ebuilds does not overwhelm the project.
 
 
