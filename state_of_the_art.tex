@@ -3,8 +3,8 @@
 \section{The Gentoo project}
 Gentoo is a free and open source operating system available in Linux or FreeBSD flavour, that can be automatically optimized and customized in order to better fit the user needs. Its main aim is to offer extreme configurability and performance to the final user, that is intended to be a power user, a developer or a system administrator. Portage is the main tool that allows this, it is a package manager that can build every piece of software according to the compilation options set by the user.
 
-Thanks to its high customization Gentoo can become a secure production server, a development workstation, a professional desktop, a gaming system or virtually whatever the user needs it to be (e.g.: currently there's a work in progress to port Gentoo on Android \cite{gentoo_android}). Because of its high adaptability, Gentoo is often referred to as a \emph{metadistribution}.
-Even though the project was born on x86 architectures it is possible to install Gentoo on a wide variety of platforms, currently it is officially supported and considered stable on x86, x86\textunderscore 64, Alpha, ARM, HPPA, IA-64, MIPS, PowerPC, PPC64 and SPARC.
+Thanks to its high customizability, Gentoo can become a secure production server, a development workstation, a professional desktop, a gaming system or virtually whatever the user needs it to be (e.g.: currently there is a work in progress to port Gentoo on Android devices  \cite{gentoo_android}). Because of its high adaptability, Gentoo is often referred to as a \emph{metadistribution}.
+Even though the project was born on x86 architectures, it is possible to install Gentoo on a wide variety of platforms; currently it is officially supported and considered stable on x86, x86\textunderscore 64, Alpha, ARM, HPPA, IA-64, MIPS, PowerPC, PPC64 and SPARC.
 
 The name "Gentoo" (/\textipa{'dZEntu:}/ JEN-too) comes from the fastest-swimming penguin, in order to reflect the fundamentals of the project.
 The development is supported by many voluntary developers \cite{gentoo_developers}, a board of developers that forms the Gentoo Council and finally the Gentoo Foundation, a non-profit organization that acts as a framework for intellectual property protection and financial caretaking.
@@ -14,10 +14,10 @@ In the past the Gentoo community was studied both from a sociological and techni
 
 \subsection{History}
 Daniel Robbins founded Enoch Linux on 4th of October 1999. His goal was to develop a new GNU/Linux distro that allowed the user to configure and compile each single package on his system in order to achieve what he thought was missing in other distributions: high personalization and compilation with hardware specific optimizations.
-In the very early stages of development Enoch manifested some issues with GLIBC and the GCC compiler that were solved by Daniel and other developers (from Cygnus Solutions in particular), making the project gain particular interest from the open source community.
+In the very early stages of development, Enoch manifested some issues with GLIBC and the GCC compiler that were solved by Daniel and other developers (from Cygnus Solutions in particular), making the project gain particular interest from the open source community.
 
 Later Enoch was renamed to Gentoo and Gentoo Technologies Inc. was founded in order to economically sustain the project. In 2002 the version 1.0 was released.
-Unfortunately Robbin's intent to make profit out of Gentoo was not going on as expected and its business model couldn't support its key developers.
+Unfortunately Robbin's intent to make profit out of Gentoo was not going on as expected and its business model could not support its key developers.
 In 2004 he retired as chief architect citing considerable personal debt and willing to spend more time with his family. Gentoo Foundation was founded in order to protect and promote the development, the intellectual property of Gentoo was transferred to it. From that moment the project passed from a centralized model to a fully community driven model.
 Since then the whole ecosystem was reorganized: the Gentoo Council is elected yearly among developers and it is in charge to take important technical decisions and define future directions; the Foundation is composed by a board of trustees and is registered as a non-profit foundation in the state of New Mexico.
 
@@ -29,14 +29,14 @@ Since then the whole ecosystem was reorganized: the Gentoo Council is elected ye
 
 
 \subsection{Development structure}
-Since 2004, with the born of the Gentoo Foundation, the development of the project turned to a full community-driven structure. A possible metaphor for this development model is a Bazaar, as Eric S. Raymond described in his essay "The Cathedral and the Bazaar" \cite{cathedral_bazaar}.
-Currently there are more than 230 active developers in Gentoo, divided in staff developers (focused on collateral projects, infrastructure and documentation) and ebuild developers (who have commit access to the ebuild tree, are the ones who maintain packages and main users of Euscan).
+Since 2004, with the birth of the Gentoo Foundation, the development of the project turned to a full community-driven structure. A possible metaphor for this development model is a Bazaar, as Eric S. Raymond described in his essay "The Cathedral and the Bazaar" \cite{cathedral_bazaar}.
+Currently there are more than 230 active developers in Gentoo, divided in staff developers (focused on collateral projects, infrastructure and documentation) and ebuild developers (who have commit access to the ebuild tree and are the ones who maintain packages and main users of Euscan).
 Every developer can be assigned to one or more projects, a project is a group of developers working towards a goal (or a set of goals), they are available and described at \texttt{www.gentoo.org/proj/en/<project name>}. Projects are essential for Gentoo because they provide very important functionalities (examples of projects are \emph{infra} that maintains the infrastructure used by all developers or \emph{hardened} that is focused on advanced security measures) and allow work separation and modularization.
 
 Important decisions are discussed among developers on mailing lists: there are many of them for different purposes, for instance \emph{gentoo-dev} is a technical list open to users where it is possible to propose new features or send RFCs, \emph{gentoo-user} is to support final users while \emph{gentoo-project} is for non technical debates about the project. Another mean of communication used for the same purpose is IRC, there are many channels on Freenode \cite{gentoo_irc} where developers and users can meet and chat.
 Critical decisions and guidelines for the future steps of the project are discussed by the Gentoo Council, an organism that is yearly elected among developers and that meets every month on IRC to deliberate.
 
-The Gentoo bug tracker is reachable at \texttt{http://bugs.gentoo.org}, this platform is an essential tool for developers because it is extensively used not only for bugs but for every issue or task that needs work or acceptance, for instance for every new developer request a new bug is filled in order to keep an history and make it public to other members of the community.
+The Gentoo bug tracker is reachable at \texttt{http://bugs.gentoo.org}: this platform is an essential tool for developers because it is extensively used not only for bugs but for every issue or task that needs work or acceptance, for instance for every new developer request a new bug is filled in order to keep an history and make it public to other members of the community.
 
 
 
@@ -44,9 +44,9 @@ The Gentoo bug tracker is reachable at \texttt{http://bugs.gentoo.org}, this pla
 The package management system developed by the Gentoo project and used in Gentoo Linux, Gentoo FreeBSD and Chromium OS is called Portage \cite{gentoo_portage}. It is important to remark that Portage is OS-independent and can be installed in virtually any environment.
 The main purpose of this software is to build sources and install them in the system prefix, tracking installed files and managing dependencies. During compilation the settings and optimization options chosen by the user are applied.
 
-Portage is composed by an interface called \emph{emerge} and the underlying ebuild system, the former is only an interface to the latter. It allows to personalize the build of every package by using USE flags which are custom flags declared in the ebuild that enable or disable specific features or settings during compilation. For example the "gtk" USE flag, if enabled when building \emph{net-misc/wicd} (a network manager), compiles the software with a GTK GUI, if it is disabled it will be compiled and installed without that feature. USE flags allow very granular customization because they allow to manage machine specific optimizations and to effectively tune every piece of software installed on the system.
+Portage is composed by an interface called \emph{emerge} and the underlying ebuild system, the former is only an interface to the latter. It allows to personalize the build of every package by using USE flags which are custom flags declared in the ebuild that enable or disable specific features or settings during compilation. For example, the "gtk" USE flag, if enabled when building \emph{net-misc/wicd} (a network manager), compiles the software with a GTK GUI, if it is disabled it will be compiled and installed without that feature. USE flags allow very granular customization because they allow to manage machine specific optimizations and to effectively tune every piece of software installed on the system.
 
-Portage offers support for different architectures: every ebuild provides a list of architectures (technically named keywords) and for each one it specifies if it’s stable or unstable (e.g.: if the software is stable on \emph{x86} and unstable on \emph{mips} the ebuild will have the \texttt{ACCEPT\textunderscore KEYWORD} flag set to \texttt{"x86 ~mips"}). 
+Portage offers support for different architectures: every ebuild provides a list of architectures (technically named keywords) and for each one it specifies if it is stable or unstable (e.g.: if the software is stable on \emph{x86} and unstable on \emph{mips} the ebuild will have the \texttt{ACCEPT\textunderscore KEYWORD} flag set to \texttt{"x86 ~mips"}). 
 Other advanced features are provided, for example the support for SLOTS (i.e.: the possibility to install different versions of a specific library or application on the same system), software license management or metapackages.
 Moreover, as Portage is written in Python, it is possible to use its API to directly interact with the software in order to get information about the ebuilds or programmatically perform operations. Euscan uses extensively the Portage API internally.
 
@@ -63,12 +63,12 @@ Build customizations can be specified using config files in /etc/portage/:
 
 
 \subsection{ebuilds}
-As explained before Portage doesn't usually handle binary packages (like \emph{apt} or \emph{rpm}) but it deals with \emph{ebuilds}: Bash scripts who instruct Portage how to fetch the source code, configure, build and install it.
+As explained before, Portage does not usually handle binary packages (like \emph{apt} or \emph{rpm}) but it deals with \emph{ebuilds}: Bash scripts who instruct Portage how to fetch the source code, configure, build and install it.
 
-For Euscan purposes it is important to notice that every ebuild provides a url where to fetch the source code using the \texttt{SRC\textunderscore URI} variable, this information is very important and it is exploited in the upstream scanning process, moreover it is what differentiates Euscan from other upstream scanners and allows better results.
+For Euscan purposes it is important to notice that every ebuild provides a url where to fetch the source code using the \texttt{SRC\textunderscore URI} variable. This information is very important and it is exploited in the upstream scanning process, moreover it is what differentiates Euscan from other upstream scanners and allows better results.
 
 Ebuilds also specify package dependencies, available USE flags, license and supported architectures.
-The structure of ebuilds is defined and standardized in the Package Manage Specification (PMS) \cite{gentoo_pms} in order to let other alternative package managers like \emph{Paludis} or \emph{pkgcore} to use the same ebuilds offered by Gentoo. The PMS defines EAPI (ebuild API) which are helper functions that can be used for including general purpose code in order to avoid code duplication and facilitate ebuild writing.
+The structure of ebuilds is defined and standardized in the Package Manager Specification (PMS) \cite{gentoo_pms} in order to let other alternative package managers like \emph{Paludis} or \emph{pkgcore} to use the same ebuilds offered by Gentoo. The PMS defines EAPI (ebuild API) which are helper functions that can be used for including general purpose code in order to avoid code duplication and facilitate ebuild writing.
 
 Every ebuild is associated to a category, a package name and a version, an example of an ebuild CPV (category, package and version) is "net-analyzer/wireshark-1.9.1".
 Ebuilds are available in the Portage package tree, a directory tree that is synchronized with a remote repository updated by Gentoo developers and contains ebuilds in the form:
@@ -108,32 +108,32 @@ src_install() {
 
 
 \subsection{Maintainers and herds}
-Gentoo developers that are in charge of writing ebuilds and maintaining them up to date are called maintainers. Every package is associated to a maintainer email address or if it is "orphan" it is associated to the special address \texttt{maintainer-needed@gentoo.org}.
-A herd is a collection of packages with an associated set of maintainers. Herds were born in order to facilitate ebuild maintenance and to ensure that the large number of ebuilds does not overwhelm the project.
+Gentoo developers that are in charge of writing ebuilds and maintaining them up-to-date are called \emph{maintainers}. Every package is associated to a maintainer email address or if it is "orphan" it is associated to the special address \texttt{maintainer-needed@gentoo.org}.
+A \emph{herd} is a collection of packages with an associated set of maintainers. Herds were born in order to facilitate ebuild maintenance and to ensure that the large number of ebuilds does not overwhelm the project.
 
 
 \subsection{Unofficial ebuilds and overlays}
-Overlays are a simple way to use additional or custom ebuilds by including other package trees without having to modify the official Portage one. Adding a new overlay is very easy, it is sufficient to add the path to the ebuild tree to the PORTDIR\textunderscore OVERLAY variable in \emph{make.conf}.
+Overlays are a simple way to use additional or custom ebuilds by including other package trees, without having to modify the official Portage one. Adding a new overlay is very easy: it is sufficient to add the path to the ebuild tree to the \texttt{PORTDIR\textunderscore OVERLAY} variable in \texttt{make.conf}.
 
-Layman is an application to manage overlays and it is the standard de-facto in Gentoo. Using its command line interface it is possible to add / delete overlays, get a list of all available ones, see which overlays are installed in the system and so on. It is written in Python and provides an API to programmatically perform any operation, Euscan uses this API to interact with overlays.
+Layman is an application to manage overlays and it is the standard de-facto in Gentoo. Using its command line interface it is possible to add or delete overlays, get a list of all available ones, see which overlays are installed in the system and so on. It is written in Python and provides an API to programmatically perform any operation; Euscan uses this API to interact with overlays.
 
 
 \subsection{Current status of ebuilds}
 Currently the Gentoo Portage tree offers more than 33000 ebuilds for more than 20000 libraries or applications, grouped in 164 categories.
-Every maintainer on average maintains tens of packages, but there are some developers that actively work on hundreds of them. For the quality of the ebuilds offered by Gentoo it is important to have them up to date. One of Gentoo's strong points is to offer bleeding edge software for power users, as well as stable releases.
+Every maintainer on average maintains tens of packages, but there are some developers that actively work on hundreds of them. For the quality of the ebuilds offered by Gentoo it is important to have them up-to-date. One of Gentoo's strong points is to offer bleeding edge software for power users, as well as stable releases.
 
-Because of the huge number of packages it is very difficult to keep an high quality without an automated tool that offers an overview of the whole ebuild ecosystem with insightful statistics and information about the overall status. Nevertheless an automatic way to know when new upstream versions of the packages are available is also important in order to facilitate the work of maintainers and of the QA team.
+Because of the huge number of packages, it is very difficult to keep an high quality without an automated tool that offers an overview of the whole ebuild ecosystem, with insightful statistics and information about the overall status. Nevertheless, an automatic way to know when new upstream versions of the packages are available is also important in order to facilitate the work of maintainers and the QA team.
 As the maintaining work is error-prone and requires a high workload there is the willing to automate it as most as possible.
 
 
 \section{Upstream scanners and GNU/Linux distributions}
-There is a wide variety of different GNU/Linux distributions but, according to Wikipedia \cite{wikipedia_distros}, it is possible to group the majority of them in 5 categories, based on the main distribution or package manager they are derived from: Debian based, Gentoo based, Pacman based, RPM based and Slackware based.
+There is a wide variety of different GNU/Linux distributions but, according to Wikipedia \cite{wikipedia_distros}, it is possible to group the majority of them in 5 categories, based on the main distribution or package manager they are derived from: Debian-based, Gentoo-based, Pacman-based, RPM-based and Slackware-based.
 
-One of the most diffused solutions to alert maintainers when a package is out of date is to use crowdsourced information and rely on the community: when a user needs an updated version of the package or simply realizes that the version offered by his package manager is not the last one available he sends a report to a centralized system that handles it. Arch Linux for example offers a \emph{"Flag package out-of-date"} on his web package tracker \cite{arch_flaghelp} while in Gentoo users are encouraged to open bugs on \texttt{http://bugs.gentoo.org} asking for a \emph{version bump} as it is called in the jargon. This method is for sure the most effective, however it requires a very active community of power users.
+One of the most diffused solution to alert maintainers when a package is out-of-date is to use crowdsourced information and rely on the community: when a user needs an updated version of the package or simply realizes that the version offered by his package manager is not the last one available, he sends a report to a centralized system that handles the request. Arch Linux for example offers a \emph{"Flag package out-of-date"} on his web package tracker \cite{arch_flaghelp} while in Gentoo users are encouraged to open bugs on \texttt{http://bugs.gentoo.org} asking for a \emph{version bump}, as it is called in the jargon. This method is for sure the most effective, however it requires a very active community of power users.
 
-Another solution to automatically know when a new upstream version of a software is released is to scrape web pages using custom scripts, but this approach doesn't scale and requires unnecessary effort by developers.
-The Debian community standardized this process by writing a common script to perform this operation: every deb package can include a \emph{watch} file that contains an URL and a regex to search in the page to extract version numbers and look for a greater one.
-This started with the creation of \emph{uscan} in the early 2000 and evolved in the Debian External Health Status, a Debian Quality Assurance service that periodically checks packages for new upstream version. Moreover the Debian Package Tracking System offers periodic email alerts with updates for every package \cite{debian_qa}.
+Another solution to automatically know when a new upstream version of a software is released is to scrape web pages using custom scripts. This approach unfortunately does not scale and requires unnecessary effort by developers.
+The Debian community standardized this process by writing a common script to perform this operation: every deb package can include a \emph{watch} file that contains an URL and a regex to search in the page, to extract version numbers and look for a greater one.
+This started with the creation of \emph{uscan} in the early 2000 and evolved in the Debian External Health Status: a Debian Quality Assurance service that periodically checks packages for new upstream version. Moreover, the Debian Package Tracking System offers periodic email alerts with updates for every package \cite{debian_qa}.
 
 \vspace{0.5cm}
 \lstset{caption=Example of a watch file, label=watch file, numbers=left, stepnumber=1, frame=single, breaklines=true}
@@ -145,4 +145,4 @@ http://somesite.com/dir foo/program-(.+)\.(?:zip|tgz|tbz|txz|(?:tar\.(?:gz|bz2|x
 
 Escan took the Debian QA software as a starting point for designing its architecture, extending it with the possibilities offered by ebuilds and creating a powerful and reliable platform.
 The Arch Linux community is currently (as of April 2013) discussing the development of an automated upstream scanner \cite{arch_scanner} and seems to be orientated towards a uscan-like solution.
-Even non-Linux package managers offer an upstream scanner: for instance macports, a package manager for installing software from source for MacOSX, includes LiveCheck and DistCheck that help maintainers in keep packages up to date \cite{macports_livecheck}.
+Even non-Linux package managers offer an upstream scanner: for instance \emph{macports}, a package manager for installing software from source for MacOSX, includes LiveCheck and DistCheck that help maintainers in keep packages up-to-date \cite{macports_livecheck}.

@@ -4,18 +4,80 @@
 \label{sec:handlers_appendix}
 An handler is a Python script that is expected to expose the following attributes:
 
+\bgroup
+\def\arraystretch{1.2}
 \begin{table}[ht]
 %\caption{Table caption}
 \centering
-\begin{tabular}{l c}
-\hline\hline \\
-Attribute & Description \\ [0.5ex] 
+\begin{tabular}{l p{8cm}}
+\hline\hline
+Attribute & Description \\
 \hline
-HANDLER\textunderscore NAME & The name of the handler \\
-5 & 45 \\ [1ex]
+
+\texttt{HANDLER\_NAME} & The name of the handler \\
 \hline
+
+\texttt{PRIORITY} & The priority of the handler, the higher the earlier is executed among all suitable handlers \\
+\hline
+
+\texttt{can\_handle(}pkg, url\texttt{)} &  Function that returns True if the handler is suitable for the given package or package and URL couple, otherwise returns False \\
+\hline
+
+\texttt{scan\_pkg(}pkg, options\texttt{)} & Function that scans upstream for new versions of the given package. \emph{options} is a dictionary with the associated ebuild metadata information. Note that this function works at package level.
+
+It returns a list of tuples, each one composed by upstream package url, version number, the handler name and the confidence associated to the detected version. \\
+\hline
+
+\texttt{scan\_url(}pkg, url, options\texttt{)} & Function that uses the given URL to scan upstream for new versions of the given package. \emph{options} is a dictionary with the associated ebuild metadata information. Note that this function works at URL level.
+
+It returns a list of tuples, each one composed by upstream package url, version number, the handler name and the confidence associated to the detected version. \\
+\hline
+
 \end{tabular}
 \end{table}
+\egroup
+
 
 \section*{Appendix B: Gentoo version naming policy}
 \label{sec:version_appendix}
+
+The version of an ebuild can be composed only by lowercase non-accented letters, 0-9 digits and hyphens, underscores and plus characters. It consists of one or more group of digits, separated by dot characters (e.g.: 1.2.3 or 20130402). The numeric part of the version must not be longer than 18 digits.
+
+For comparing two versions each one is splitted in groups using the dot as separator, then for every group a check is made until two groups are different, in that case the result of the last comparison is returned.
+The final number may have a single letter following it (e.g. 1.2b). It is important to remark that this letter should not be used to indicate release statuses such as "beta" or "alpha" as Portage treats 1.2b as being a later version than 1.2 or 1.2a.
+
+Suffixes can be used for indicating the kind of the release.
+In the following table, what portage considers to be the "lowest" version comes first.
+
+\bgroup
+\def\arraystretch{1.2}
+\begin{table}[ht]
+%\caption{Table caption}
+\centering
+\begin{tabular}{l p{8cm}}
+\hline\hline
+Suffix & meaning \\
+\hline
+\textunderscore alpha & Alpha release (earliest) \\
+\textunderscore beta & Beta release \\
+\textunderscore pre & Pre release \\
+\textunderscore rc & Release candidate \\
+(no suffix) & Normal release \\
+\textunderscore p & Patch level \\
+\hline
+\end{tabular}
+\end{table}
+\egroup
+
+Any of these suffixes may be followed by a non-zero positive integer.
+They can be chained together and will be processed iteratively.
+
+To give some examples (the following list is from lowest version to highest):
+\begin{itemize}
+\item foo-1.0.0\_alpha\_pre
+\item foo-1.0.0\_alpha\_rc1
+\item foo-1.0.0\_beta\_pre
+\item foo-1.0.0\_beta\_p1
+\end{itemize}
+
+Finally, every version may have a Gentoo revision number in the form -r1. The initial Gentoo version should have no revision suffix, the first revision should be -r1, the second -r2 and so on. This is important for Euscan purposes because the revision suffix must be always skipped, as it is a piece of information that is not related with upstream.
