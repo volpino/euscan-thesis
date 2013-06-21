@@ -3,10 +3,10 @@
 \section{Overview}
 As already mentioned, one of the strong points of Euscan is the possibility to detect upstream versions of existing ebuilds without needing the maintainer to provide additional information (even though he or she can do so).
 
-Unlike Debian uscan, where the maintainer is supposed to write a watch file with an URL to fetch and a regular expression to match for finding upstream versions, Euscan uses information already available inside ebuilds, \texttt{SRC\textunderscore URI} in particular. \texttt{SRC\textunderscore URI} is a variable with the URL where to fetch the source code, this is a piece of information that it is usually not available in binary packages because it is not useful for the purpose of installing binaries. As Portage is also a build system that compiles all the software the user wants to install, this piece of information is essential and it is always present.
+Unlike Debian uscan, where the maintainer is supposed to write a watch file with an URL to fetch and a regular expression to match for finding upstream versions, Euscan uses information already available inside ebuilds, \texttt{SRC\textunderscore URI} in particular. \texttt{SRC\textunderscore URI} is a variable with the URL where to fetch the source code. This is a piece of information that it is usually not available in binary packages because it is not useful for the purpose of installing binaries. As Portage is also a build system that compiles all the software the user wants to install, this piece of information is essential and it is always present.
 
 \subsection{Workflow}
-It is possible to call the Euscan CLI or the Python API by passing a list of packages to scan. Only the package name without the category or simply the ebuild path can be passed, Gentoolkit is used for reconciliation. Once the packages objects are obtained Euscan extracts metadata information for each one of them.
+It is possible to call the Euscan CLI or the Python API by passing a list of packages to scan. Only the package name without the category or simply the ebuild path can be passed, Gentoolkit is used for reconciliation. Once the packages objects are obtained, Euscan extracts metadata information for each one of them.
 
 After this brief initial evaluation, each package with the associated source URLs is passed to the handler system and detected upstream versions are returned.
 
