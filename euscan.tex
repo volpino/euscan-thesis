@@ -194,4 +194,4 @@ Creating a performant data model for the ebuild tree requires some effort and sh
 To solve this issues, commonly used operations are computed after each scan process and its result is cached. This approach is possible because data is changing only after a scan process. Furthermore, for faster queries through the Django ORM, \emph{select\textunderscore related} and \emph{prefetch\textunderscore related} features are used extensively \cite{django_orm}.
 
 \section{Euscan Python API}
-Euscan is also a Python module with a wide set of utilities for scanning upstream. In fact, the CLI and the Web interface share the same common code and are built upon the Euscan Python API. Nothing prevents another application to exploit the Euscan functionalities for its purpose.
+Euscan is also a Python module with a wide set of utilities for scanning upstream. In fact, the CLI and the Web interface share the same common code and are built upon the Euscan Python API. Nothing prevents another application to exploit the Euscan functionalities for its own purpose.

@@ -8,7 +8,7 @@ Unlike Debian uscan, where the maintainer is supposed to write a watch file with
 \subsection{Workflow}
 It is possible to call the Euscan CLI or the Python API by passing a list of packages to scan. Only the package name without the category or simply the ebuild path can be passed, Gentoolkit is used for reconciliation. Once the packages objects are obtained, Euscan extracts metadata information for each one of them.
 
-After this brief initial evaluation, each package with the associated source URLs is passed to the handler system and detected upstream versions are returned.
+After this brief initial evaluation, each package with the associated source URLs is passed to the handler system and the detected upstream versions are returned.
 
 
 \section{Scanning handlers}
@@ -18,13 +18,13 @@ After this brief initial evaluation, each package with the associated source URL
 The handlers' system is a pluggable ecosystem of scripts for handling different upstream sources. As most of the packages are available through standard services (e.g.: SourceForge, BerliOS, PyPI, RubyGems, \ldots), creating custom and efficient scripts that exploit peculiarities of each service can lead to the correct handling of the majority of the cases in a reliable way. For this reason, at the moment Euscan implements 11 different handlers for various major providers of source code and 1 special handler for non-standard providers.
 Each handler has a priority and returns a list of detected upstream versions with and associated confidence. The confidence is a 0-100 score that represents the reliability of the result.
 
-Initially handlers were designed to accept an URL and return results only if they were suitable for dealing with that kind of input. This approach was used in production for some months, but then a new kind of handler was added in order to support specific settings added by the maintainer in the ebuild metadata. This was needed in order to correctly handle some corner cases of widely used packages (like for example MySQL). As those pieces of information are not associated to a specific \texttt{SRC\textunderscore URI} but concern the whole package, handlers were modified in order to support packages as input as well as URLs.
+Initially handlers were designed to accept an URL and return results only if they were suitable for dealing with that kind of input. This approach was used in production for some months, but then a new kind of handler was added in order to support specific settings added by the maintainer in the ebuild metadata. This was needed in order to correctly handle some corner cases of widely used packages (like for example MySQL). As those pieces of information are not associated to a specific \texttt{SRC\textunderscore URI} but concern the whole package, handlers were modified in order to support packages as input, as well as URLs.
 
-It is important to remark that all handlers are pluggable, so it is very easy to add new ones, the only thing to do is to write a Python script compliant with the Euscan handlers specification (see \ref{sec:handlers_appendix}) and place it in the \emph{handlers} directory.
+It is important to remark that all handlers are pluggable, so it is very easy to add new ones: the only thing to do is to write a Python script compliant with the Euscan handlers specification (see \ref{sec:handlers_appendix}) and place it in the \emph{handlers} directory.
 
 \subsection{Upstream metadata}
-A maintainer can add information about the service that offers upstream source code of the package. Each ebuild has a \texttt{metadata.xml} file associated with it where, for instance, the data about herds and maintainer is stored. GLEP (Gentoo Linux Enhancement Proposal) \#46 \cite{glep46} introduced the \texttt{<upstream>} tag in order to keep track of some additional information about upstream. This proposal was presented in 2008 with a long view and the idea of an upstream scanner in mind years before Euscan was born.
-For Euscan the \texttt{<remote-id>} tag and its \texttt{type} attribute are important because they store information about the name of the service that hosts the package as well as its project name on that service.
+A maintainer can add information about the service that offers upstream source code of the package. Each ebuild has a \texttt{metadata.xml} file associated with it where, for instance, the data about herds and maintainer is stored. GLEP (Gentoo Linux Enhancement Proposal) \#46 \cite{glep46} introduced the \texttt{<upstream>} tag in order to keep track of some additional information about upstream. This proposal was presented in 2008 with a long view and the idea of an upstream scanner in mind, years before Euscan was born.
+For Euscan the \texttt{<remote-id>} tag and its \texttt{type} attribute are important because they store information about the name of the service that hosts the package, as well as its project name on that service.
 
 \subsection{Init handler}
 The init handler receives a package and a list of URLs to scan. It deals with the dispatching of this information to the suitable handler.
@@ -37,7 +37,7 @@ The init handler receives a package and a list of URLs to scan. It deals with th
 \end{enumerate}
 
 \subsection{Specific handlers}
-Here is a list of handlers, frequently used by Euscan in order to scan well known and widely used services. Each one of these handlers is a package handler as well as an URL handler. If the package provides metadata with information about the service where the source code is hosted the handler is called as a package handler. On the contrary the handler is called as an URL handler and the needed information is guessed from the URL.
+Here is a list of handlers, frequently used by Euscan in order to scan well known and widely used services. Each one of these handlers is a package handler as well as an URL handler. If the package provides metadata with information about the service where the source code is hosted, the handler is called as a package handler. On the contrary, the handler is called as an URL handler and the needed information is guessed from the URL.
 
 \begin{itemize}
 \item BerliOS handler: For software released on \texttt{berlios.de}. \\ Scrapes \texttt{http://developer.berlios.de/} for finding new upstream versions.
@@ -86,7 +86,7 @@ e.g.: [\\
     (\url{/source}, \url{^(?:|.*/)abiword\-((?:\d+)(?:(?:\.\d+)*)(?:[a-zA-Z]*?)(?:(?:(?:-|_)(?:pre|p|beta|b|alpha|a|rc|r)\\d*)*))\.tar\.gz/?\$}) \\
 ]
  
-\item Starting from the first couple it fetches the URL and looks for all the HTML anchors (or all files present in that directory if the URL uses the FTP protocol) and tries to match the pattern. For all the links (or filenames) that match the pattern and have a higher version number, the function is called recursively with the rest of the couples. If there are no more couples available, then the found links point to available upstream versions and are returned as new versions.
+\item Starting from the first couple it fetches the URL and looks for all the HTML anchors (or all files present in that directory if the URL uses the FTP protocol) and tries to match the pattern. For all the links (or filenames) that match the pattern and have a higher version number the function is called recursively with the rest of the couples. If there are no more couples available, then the found links point to available upstream versions and are returned as new versions.
 \end{enumerate}
 
 If this approach can not find any result then the generic handler fallbacks to bruteforcing: it tries to guess URLs by putting higher version numbers. It works as follows:
@@ -113,7 +113,7 @@ e.g.: \texttt{http://downloads.mongodb.org/src/mongodb-src-r\$\{PV\}.tar.gz}
 \item For each request that returns a response with a 2xx HTTP status code (or a correct FTP response) a new version is found and is returned to the callee.
 \end{enumerate}
 
-This handler is indeed special and was the most complicated to design, implement and tune to get reliable results. It proposes a new approach to the problem, completely different from the Debian uscan one. It was very useful both to get to know how many packages actually use custom services and also for finding new services for which was worth writing a custom handler.
+The generic handler is indeed special and was the most complicated to design, implement and tune to get reliable results. It proposes a new approach to the problem, completely different from the Debian uscan one. It was very useful both to get to know how many packages actually use custom services and also for finding new services for which was worth writing a custom handler.
 
 
 \section{Future improvement}
@@ -121,18 +121,18 @@ This handler is indeed special and was the most complicated to design, implement
 \subsection{Debian watch files}
 As the Debian community is very large and active and their packages have very high quality standards it could be a good idea to get information from \emph{watch} files and use it for Euscan.
 
-Euscan offers a simple script for getting a .deb package, extracting the watch file and parse it in order to add this information in ebuild's metadata.
+Euscan offers a simple script for getting a \texttt{.deb} package, extracting the watch file and parse it in order to add this information in ebuild's metadata.
 Euscan has a specific wrapper of the generic handler for dealing with watch file data.
 The main problem of this approach is the difficulty of matching a Gentoo package with a Debian package because, sometimes, different naming conventions are used. For inter-distribution package matching Enrico Zini released \emph{DistroMatch} \cite{distromatch} and presented it at the \emph{Free and Open Source Software Developers' European Meeting (FOSDEM) 2012} \cite{distromatch_fosdem}. Unfortunately the project is no more actively developed \cite{distromatch_away} and it does not support Gentoo Linux.
 
 
 \subsection{Debian Packages index}
-The Debian handler is an experimental handler for using information from Debian \emph{Packages.gz} file, an index of all files present in a deb repository. In this way it is possible to know if Debian offers some versions that are not available in Gentoo. This could be very useful to have a cross distro evaluation as well as knowing which versions are considered rock-solid (if using Packages.gz from Debian stable).
+The Debian handler is an experimental handler for using information from Debian \emph{Packages.gz} file, an index of all files present in a deb repository. In this way it is possible to know if Debian offers some versions that are not available in Gentoo. This could be very useful to have a cross distro evaluation, as well as knowing which versions are considered rock-solid (if using Packages.gz from Debian stable).
 This approach however has the same problems of using watch files and has the defect of relying on another community, not on upstream.
 
 \section{Technical issues}
 \subsection{Non-standard HTTP responses}
-The generic handler relies on links displayed in the page and HTTP responses (for bruteforcing in particular). Unfortunately some services do not return correct status codes for requests while some others could lead to infinite page loops because, for example, they always return the starting page even with wrong URLs.
+The generic handler relies on links displayed in the page and HTTP responses (for bruteforcing in particular). Unfortunately some services do not return correct status codes for requests, while some others could lead to infinite page loops because, for example, they always return the starting page even with wrong URLs.
 For solving this issue a maximum recursion limit is imposed and for special cases it is possible to blacklist some websites in order not to scan them.
 
 \subsection{Version mangling}
@@ -141,9 +141,9 @@ One of the hardest and partially unsolved issues is the version mangling. Gentoo
 
 Euscan implements a mechanism of version mangling for handling common cases of different enumeration but it is very difficult to cover all special cases. For this reason an RFC (http://www.mail-archive.com/gentoo-dev@lists.gentoo.org/msg51959.html) was proposed to the \emph{gentoo-dev} mailing list with a possible solution: currently Euscan accepts a \texttt{versionmangle} attribute in the \texttt{<remote-id>} tag, this attribute can include a regular expression for substituting some parts of the version number. An example of a \texttt{versionmangle} value is \url{s/([\d\.]+)\.(\d+)/\$1-r\$2/} that converts a version number like "1.2" to "1-r2".
 
-For differentiating stable and unstable releases Euscan is based on the Gentoo policy about version types (see \ref{sec:version_appendix}).
+For differentiating stable and unstable releases, Euscan is based on the Gentoo policy about version types (see \ref{sec:version_appendix}).
 Version comparison is also a problem if version enumeration is not standardized: without version mangling the comparison can result erroneous and this could lead to false positives.
-Particular versions also make not possible to use bruteforcing for scanning certain packages as version increment depends on the policy of the upstream developer.
+Particular versions also make not possible to use bruteforcing for scanning certain packages, as version increment depends on the policy of the upstream developer.
 
 \section{Evaluation}
 \subsection{Handlers' confidence score}
@@ -156,16 +156,16 @@ For the generic handler the calculation of the confidence score is a bit tricky 
 
 \item If the directory depth of both URLs is different return the minimum score.
 
-\item Strip numbers and the first common part of the URL and calculate the similarity ratio of the two URL parts using a modified version of the Ratcliff-Obershelp algorithm offered by Python's standard library in the \texttt{difflib} module.
+\item Strip numbers and the first common part of the URL and calculate the similarity ratio of the two URL parts using a modified version of the Ratcliff-Obershelp algorithm, offered by Python's standard library in the \texttt{difflib} module.
 
 Return
 $(minimum\_score + minimum\_score * diff\_ratio)$
 so that the maximum possible score is $minimum * 2$.
 \end{enumerate}
 
-The minimum score depends on the fact that the generic handler used bruteforce or not. For bruteforce minimum is set to 30 while for recursive scanning is set to 45.
+The minimum score depends on the fact that the generic handler used bruteforce or not. For bruteforce minimum is set to 30, while for recursive scanning it is set to 45.
 
-The current overall confidence score on the main Euscan instance is satisfying and we can see that site specific handlers are widely used, SourceForge handler in particular is the most used. The average confidence score is pretty high, even for results from the generic handler (see table \ref{table:handlers_stats}).
+The current overall confidence score on the main Euscan instance is satisfying and we can see that site specific handlers are widely used. SourceForge handler, in particular, is the most used. The average confidence score is pretty high, even for results from the generic handler (see table \ref{table:handlers_stats}).
 
 \bgroup
 \def\arraystretch{1.2}
@@ -199,4 +199,4 @@ Users on Euscan can report false positives or undetected upstream versions. This
 \subsection{Future steps}
 The evaluation of the Euscan algorithm is a very difficult task because there are many corner cases and it is very difficult to know when the algorithm gives wrong answers without checking every case by hand.
 
-Different solutions were discussed among developers: a possible approach could be making a comparison between updates found by Euscan and version bumps on the Gentoo bug tracker. In this way it is possible to know which packages were updated but were not marked outdated by the upstream scanner, or viceversa. This solution however has the problem that not always version bumps are requested for unstable versions like betas or alphas, so this has be taken into account when such evaluation will be performed.
+Different solutions were discussed among developers: a possible approach could be making a comparison between updates found by Euscan and version bumps on the Gentoo bug tracker. In this way it is possible to know which packages were updated but were not marked outdated by the upstream scanner, or viceversa. This solution, however, has the problem that not always version bumps are requested for unstable versions, like betas or alphas, so this has be taken into account when such evaluation will be performed.

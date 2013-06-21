@@ -14,13 +14,13 @@ An handler is a Python script that is expected to expose the following attribute
 Attribute & Description \\
 \hline
 
-\texttt{HANDLER\_NAME} & The name of the handler \\
+\texttt{HANDLER\_NAME} & The name of the handler. \\
 \hline
 
-\texttt{PRIORITY} & The priority of the handler, the higher the earlier is executed among all suitable handlers \\
+\texttt{PRIORITY} & The priority of the handler, the higher the earlier is executed among all suitable handlers. \\
 \hline
 
-\texttt{can\_handle(}pkg, url\texttt{)} &  Function that returns True if the handler is suitable for the given package or package and URL couple, otherwise returns False \\
+\texttt{can\_handle(}pkg, url\texttt{)} &  Function that returns True if the handler is suitable for the given package or package and URL couple; returns False otherwise. \\
 \hline
 
 \texttt{scan\_pkg(}pkg, options\texttt{)} & Function that scans upstream for new versions of the given package. \emph{options} is a dictionary with the associated ebuild metadata information. Note that this function works at package level.
