@@ -67,7 +67,7 @@ Here is a list of handlers, frequently used by Euscan in order to scan well know
 \subsection{Generic URL handler}
 The generic handler is designed to use some heuristics in order to find upstream versions of packages hosted on custom services. It is able to scan both HTTP and FTP urls.
 
-The workflow of the generic handler is as follows:
+The workflow of the generic handler can be summarized as follows:
 
 \begin{enumerate}
 \item An URL is sent to the handler \\ 
@@ -139,7 +139,7 @@ For solving this issue a maximum recursion limit is imposed and for special case
 One of the hardest and partially unsolved issues is the version mangling. Gentoo, as most of the distros, has a specific policy for version enumeration. Unfortunately every upstream developer has his own policy, some of them are very peculiar (e.g.: \emph{pycryptopp}, a Python library that provides cryptographic functions, has a release with version number \texttt{0.6.0.120656932814151052564 
 8634803928199668821045408958}).
 
-Euscan implements a mechanism of version mangling for handling common cases of different enumeration but it is very difficult to cover all special cases. For this reason an RFC (http://www.mail-archive.com/gentoo-dev@lists.gentoo.org/msg51959.html) was proposed to the \emph{gentoo-dev} mailing list with a possible solution: currently Euscan accepts a \texttt{versionmangle} attribute in the \texttt{<remote-id>} tag, this attribute can include a regular expression for substituting some parts of the version number. An example of a \texttt{versionmangle} value is \url{s/([\d\.]+)\.(\d+)/\$1-r\$2/} that converts a version number like "1.2" to "1-r2".
+Euscan implements a mechanism of version mangling for handling common cases of different enumeration but it is very difficult to cover all special cases. For this reason an RFC \cite{fox_rfc} was proposed to the \emph{gentoo-dev} mailing list with a possible solution: currently Euscan accepts a \texttt{versionmangle} attribute in the \texttt{<remote-id>} tag, that is not defined in the metadata DTD yet. This attribute can include a regular expression for substituting some parts of the version number. An example of a \texttt{versionmangle} value is \url{s/([\d\.]+)\.(\d+)/\$1-r\$2/} that converts a version number like "1.2" to "1-r2".
 
 For differentiating stable and unstable releases, Euscan is based on the Gentoo policy about version types (see \ref{sec:version_appendix}).
 Version comparison is also a problem if version enumeration is not standardized: without version mangling the comparison can result erroneous and this could lead to false positives.
